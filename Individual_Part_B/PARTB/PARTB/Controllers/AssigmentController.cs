@@ -35,14 +35,15 @@ namespace PARTB.Controllers
                 int cid = printAssigment.EnterCourseIdToAddAssigment(Courses);
                 (string tile, string description, DateTime subDateTime) assigmentDetails = ("", "", new DateTime());
                 printAssigment.EnterAssigmentDetails(out assigmentDetails, cid, Courses);
+                Course course = courseRepository.GetCourseById(cid);
                 Assigment assigment = new Assigment()
                 {
                     Title = assigmentDetails.tile,
                     Description = assigmentDetails.description,
                     SubDateTime = assigmentDetails.subDateTime,
-                    AssigmentId = cid,
+                    Courses = courseRepository.AddCourse(course);                    
                 };
-                Course course = courseRepository.GetCourseById(cid);
+               
                 assigmentRepository.AddAssigment(assigment);
                 printAssigment.AssigmentSuccessCreateMessage(assigment, course);
             }
